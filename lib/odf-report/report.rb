@@ -13,6 +13,7 @@ class Report
     @images = {}
     @image_names_replacements = {}
     @sections = []
+    @actions = []
 
     yield(self) if block_given?
 
@@ -46,6 +47,10 @@ class Report
     yield(sec)
   end
 
+  def remove_section(section_name)
+    @actions << ODFReport::Actions::RemoveSection.new(section_name)
+  end
+
   def add_image(name, path)
     @images[name] = path
   end
@@ -64,6 +69,13 @@ class Report
 
         find_image_name_matches(doc)
         avoid_duplicate_image_names(doc)
+
+          @actions.each   { |action| action.process!(doc) }
+
+          find_image_name_matches(doc)
+          avoid_duplicate_image_names(doc)
+
+        end
 
       end
 
