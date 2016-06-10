@@ -75,6 +75,7 @@ class Report
           find_image_name_matches(doc)
           avoid_duplicate_image_names(doc)
 
+          add_styles(doc)
         end
 
       end
@@ -91,6 +92,21 @@ class Report
 
   end
 
+private
+
+  def parse_document(txt)
+    doc = Nokogiri::XML(txt)
+    yield doc
+    txt.replace(doc.to_xml(:save_with => Nokogiri::XML::Node::SaveOptions::AS_XML))
+  end
+
+
+  def add_styles(doc)
+    doc.children.first.children[2].inner_html +=
+      "<style:style style:name='PAGEBREAK' style:family='paragraph' style:parent-style-name='Standard'>
+         <style:paragraph-properties fo:break-before='page'/>
+       </style:style>"
+  end
 end
 
 end
