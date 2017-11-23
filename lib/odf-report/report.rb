@@ -70,13 +70,12 @@ class Report
         find_image_name_matches(doc)
         avoid_duplicate_image_names(doc)
 
-          @actions.each   { |action| action.process!(doc) }
+        @actions.each   { |action| action.process!(doc) }
 
-          find_image_name_matches(doc)
-          avoid_duplicate_image_names(doc)
+        find_image_name_matches(doc)
+        avoid_duplicate_image_names(doc)
 
-          add_styles(doc)
-        end
+        add_styles(doc)
 
       end
 
@@ -108,5 +107,4 @@ private
        </style:style>"
   end
 end
-
 end
